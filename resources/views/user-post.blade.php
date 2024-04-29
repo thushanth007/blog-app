@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            {{ $posts[0]->createdBy->name  }} Profile
         </h2>
     </x-slot>
 
@@ -25,22 +25,20 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
-                        Welcome to the social media.
+                        No posts to display. Please upload a post.
                     </div>
                 </div>
             </div>
         </div>
     @endif
 
-    <div class="py-3">
+    <div class="py-2">
         @foreach ($posts as $post)
             <div class="bg-white rounded-lg shadow-md max-w-xl mx-auto my-4">
                 <div class="flex items-center justify-between px-4 py-2 border-b border-gray-200">
                     <div class="flex items-center space-x-2">
                         <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="{{ $post->createdBy->name }}" class="w-8 h-8 rounded-full">
-                        <a href="{{ route('user-post', $post->created_by) }}">
-                            <span class="text-sm font-semibold">{{ $post->createdBy->name }}</span>
-                        </a>
+                        <span class="text-sm font-semibold">{{ $post->createdBy->name }}</span>
                     </div>
                     <span class="text-xs text-gray-500">{{ $post->created_at->diffForHumans() }}</span>
                 </div>
