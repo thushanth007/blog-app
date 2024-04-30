@@ -18,8 +18,12 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
+        'provider',
+        'provider_id',
+        'provider_token',
     ];
 
     /**
@@ -43,5 +47,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function comments(): MorphMany
+    {
+        return $this->morphMany(Comments::class, 'commentable');
     }
 }

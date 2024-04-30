@@ -5,21 +5,15 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <h1 class="text-xl font-semibold text-black dark:text-white pt-3">Micro Social Media</h1>
+                    <a href="{{ route('admin.dashboard') }}">
+                        <h1 class="text-xl font-semibold text-black dark:text-white">Micro Social Media</h1>
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                         {{ __('Dashboard') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('my-post')" :active="request()->routeIs('my-post')">
-                        {{ __('My Post') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('posts.add')" :active="request()->routeIs('posts.add')">
-                        {{ __('Create Posts') }}
                     </x-nav-link>
                 </div>
             </div>

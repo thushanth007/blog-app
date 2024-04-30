@@ -20,16 +20,19 @@ class PostController extends Controller
             'content' => 'required|string|max:100',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-    
-        $imagePath = $request->file('image')->store('images', 'public');
-    
-        $post = Post::create([
+
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+        }
+
+        Post::create([
             'content' => $request->input('content'),
             'image' => $imagePath,
             'created_by' => Auth::user()->id
         ]);
-    
-        return redirect()->route('dashboard')->with('success', 'Post created successfully.');
+
+        return redirect()->route('my-post')->with('success', 'Post created successfully.');
     }
 
     public function edit(Post $post)
@@ -45,28 +48,29 @@ class PostController extends Controller
             'content' => 'required|string|max:100',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-    
+
         $data = [
-            'title' => $request->input('title'),
             'content' => $request->input('content'),
         ];
-    
+
         if ($request->hasFile('image')) {
-            Storage::disk('public')->delete($post->image);
-    
+            if($post->image) {
+                Storage::disk('public')->delete($post->image);
+            }
+
             $imagePath = $request->file('image')->store('images', 'public');
             $data['image'] = $imagePath;
         }
-    
+
         $post->update($data);
-    
-        return redirect()->route('dashboard')->with('success', 'Post updated successfully.');
+
+        return redirect()->route('my-post')->with('success', 'Post updated successfully.');
     }
 
     public function destroy(Post $post)
     {
         $post->delete();
 
-        return redirect()->route('dashboard')->with('success', 'Post deleted successfully.');
+        return redirect()->route('my-post')->with('success', 'Post deleted successfully.');
     }
 }
