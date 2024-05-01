@@ -9,7 +9,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $posts = Post::where('status', 1)->orderByDesc('created_at')->paginate(3);
+        $posts = Post::withCount(['likes', 'commentList'])->where('status', 1)->orderByDesc('created_at')->paginate(3);
 
         return view('home', compact('posts'));
     }

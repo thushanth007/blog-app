@@ -10,9 +10,9 @@ class AdminPostController extends Controller
 {
     public function edit(Post $post)
     {
-        return view('admin.edit', [
-            'post' => $post,
-        ]);
+        $post_info = Post::withCount(['likes', 'commentList'])->find($post->id);
+
+        return view('admin.edit', ['post' => $post_info]);
     }
 
     public function updateStatus(Request $request, Post $post)

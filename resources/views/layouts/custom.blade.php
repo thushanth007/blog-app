@@ -53,7 +53,7 @@
                                         @endif
                                     @endauth
                                 </nav>
-                    @endif
+                            @endif
                         </div>
                     </div>
                 </header>

@@ -72,31 +72,57 @@
                         <button class="flex items-center space-x-1">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
                             </svg>
-                            <span class="text-sm text-gray-500">Like</span>
+                            <form id="likeForm" onsubmit="event.preventDefault(); addLike({{ $post->id }})" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" id="likeButton" class="text-sm text-gray-500">Like</button>
+                            </form>
                         </button>
                     </div>
 
                     <div class="flex items-center space-x-4">
-                        <span class="text-sm text-gray-500">0 Likes</span>
-                        <span class="text-sm text-gray-500">0 Comments</span>
+                        <span class="text-sm text-gray-500" id="likeCount_{{ $post->id }}" data-post-id="{{ $post->id }}">{{ $post->likes_count }} Likes</span>
+                        <span class="text-sm text-gray-500">{{ $post->comments_list_count }} Comments</span>
                     </div>
                 </div>
 
                 <div class="px-4 py-2 border-t border-gray-200">
-                    <form id="commentForm" action="{{ route('comments.store') }}" method="POST">
+                    <form id="commentForm" onsubmit="event.preventDefault(); submitComment('{{ $post->id }}', '{{ $commentableType }}')" method="POST">
                         @csrf
-                        @if(isset($post))
-                            @method('post')
-                        @endif
+                        @method('POST')
 
-                        <input type="hidden" name="commentable_type" value="{{ $commentableType }}">
-                        <input type="hidden" name="commentable_id" value="{{ $commentableId }}">
                         <div class="flex items-center space-x-4">
-                            <textarea name="comment" id="commentText" rows="1" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:border-blue-500" placeholder="Write a comment..."></textarea>
+                            <input type="text" name="comment" id="commentField_{{ $post->id }}" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:border-blue-500" placeholder="Write a comment...">
                             <button type="submit" id="postCommentButton" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Post</button>
                         </div>
                     </form>
                 </div>
+
+                @if($post->comments)
+                    @foreach($post->comments as $comment)
+                        <div class="flex items-center justify-between px-4 py-2 border-t border-gray-200">
+                            <div class="flex items-center space-x-2">
+                                <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="{{ $post->createdBy->name }}" class="w-8 h-8 rounded-full">
+                                <a href="{{ route('user-post', $post->created_by) }}">
+                                    <span class="text-sm">{{ $comment->createdBy->name }}</span>
+                                </a>
+                            </div>
+
+                            <div class="flex items-center space-x-4">
+                                <form id="commentDeleteForm" onsubmit="event.preventDefault(); deleteComment({{ $comment->id }})" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" id="postCommentDeleteButton" class="text-sm text-gray-500">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="flex items-center px-12 border-gray-200 pb-2">
+                            <div class="flex items-center space-x-4">
+                                {{ $comment->body }}
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
             </div>
         @endforeach
     </div>

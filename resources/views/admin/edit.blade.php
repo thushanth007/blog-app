@@ -39,7 +39,7 @@
 
                 <div class="flex items-center justify-between px-4 py-2 border-t border-gray-200">
                     <div class="flex items-center space-x-4">
-                        @if($post->status === 0)
+                        @if($post->status != 1)
                             <form method="post" action="{{ route('admin.update-status', $post) }}" enctype="multipart/form-data">
                                 @csrf
 
@@ -55,6 +55,8 @@
                                     <span class="text-sm text-gray-500">Approve</span>
                                 </button>
                             </form>
+                        @endif
+                        @if($post->status != 2)
                             <form method="post" action="{{ route('admin.update-status', $post) }}"  enctype="multipart/form-data">
                                 @csrf
 
@@ -87,8 +89,8 @@
                     </div>
 
                     <div class="flex items-center space-x-4">
-                        <span class="text-sm text-gray-500">0 Likes</span>
-                        <span class="text-sm text-gray-500">0 Comments</span>
+                        <span class="text-sm text-gray-500">{{ $post->likes_count }} Likes</span>
+                        <span class="text-sm text-gray-500">{{ $post->comments_list_count }} Comments</span>
                     </div>
                 </div>
             </div>

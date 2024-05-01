@@ -29,7 +29,9 @@
                             </div>
 
                             <div>
-                                <img src="{{ asset('storage/' . $post->image) }}" alt="Post Image" class="w-full rounded-lg" style="width: 200px;">
+                                @if($post->image)
+                                    <img src="{{ asset('storage/' . $post->image) }}" alt="Post Image" class="w-full rounded-lg" style="width: 200px;">
+                                @endif
                                 <x-input-label for="image" :value="__('Image')" class="pb-2" />
                                 <input id="image" name="image" type="file" class="mt-1 block w-full" accept="image/*" />
                                 <p class="text-sm">The image is not required.</p>

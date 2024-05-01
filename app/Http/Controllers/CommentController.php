@@ -3,20 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Notifications\NewCommentNotification; 
+use App\Notifications\NewCommentNotification;
 use Illuminate\Http\Request;
-use App\Models\Comments;
+use App\Models\Comment;
 use App\Models\Post;
 
 class CommentController extends Controller
 {
     public function store(Request $request)
     {
-        $comment = new Comments();
-        $comment->body = $request->comment;
-        $comment->user_id = auth()->id(); // Assuming you have authentication set up
-        $comment->commentable_type = $request->commentable_type;
+        $comment = new Comment();
         $comment->commentable_id = $request->commentable_id;
+        $comment->user_id = auth()->id();
+        $comment->body = $request->body;
+        $comment->commentable_type = $request->commentable_type;
         $comment->save();
 
         $post = Post::find($request->commentable_id);
@@ -30,7 +30,7 @@ class CommentController extends Controller
 
     public function destroy($id)
     {
-        $comment = Comments::findOrFail($id);
+        $comment = Comment::findOrFail($id);
         $comment->delete();
 
         return response()->json(['message' => 'Comment deleted successfully']);

@@ -4,15 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
-use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function show()
     {
-        $posts = Post::where('status', 1)->orderByDesc('created_at')->paginate(5);
+        $posts = Post::with(['commentList' => function ($query) {
+                $query->select('id', 'body');
+            }])
+            ->withCount(['likes', 'commentList'])
+            ->where('status', 1)
+            ->orderByDesc('created_at')
+            ->paginate(3);
+
         $commentableType = Post::class;
-        $commentableId = $posts->isEmpty() ? null : $posts->first()->id;
-        return view('dashboard', compact('posts', 'commentableType' , 'commentableId'));
+
+        return view('dashboard', compact('posts', 'commentableType'));
     }
 }

@@ -10,9 +10,17 @@ class UserPostController extends Controller
 {
     public function show($id)
     {
-        $posts = Post::where('created_by', Auth::user()->id)->where('status', 1)->orderByDesc('created_at')->paginate(5);
+        $posts = Post::with(['commentList' => function ($query) {
+                $query->select('id', 'body');
+            }])
+            ->withCount(['likes', 'commentList'])
+            ->where('created_by', Auth::user()->id)
+            ->where('status', 1)
+            ->orderByDesc('created_at')
+            ->paginate(3);
+
         $commentableType = Post::class;
-        $commentableId = $posts->isEmpty() ? null : $posts->first()->id;
-        return view('user-post', compact('posts', 'commentableType' , 'commentableId'));
+
+        return view('user-post', compact('posts', 'commentableType'));
     }
 }

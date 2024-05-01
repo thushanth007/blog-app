@@ -10,6 +10,7 @@ use App\Http\Controllers\UserPostController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminPostController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\Auth\ProviderController;
 
 // Route for the homepage
@@ -38,7 +39,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
 
     // Route for deleting a comment
-    Route::delete('/comments/{id}', [CommentController::class, 'destroy']);
+    Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy');
+
+    // Route for like
+    Route::post('/like/{id}', [LikeController::class, 'store'])->name('like.store');
+
 });
 
 // Admin

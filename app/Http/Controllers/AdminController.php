@@ -10,7 +10,7 @@ class AdminController extends Controller
 {
     public function show()
     {
-        $posts = Post::orderByDesc('created_at')->paginate(5);
+        $posts = Post::orderByDesc('created_at')->paginate(3);
 
         return view('admin.dashboard', compact('posts'));
     }

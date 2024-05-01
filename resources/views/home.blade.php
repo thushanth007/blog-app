@@ -61,8 +61,8 @@
                     </div>
 
                     <div class="flex items-center space-x-4">
-                        <span class="text-sm text-gray-500">0 Likes</span>
-                        <span class="text-sm text-gray-500">0 Comments</span>
+                        <span class="text-sm text-gray-500">{{ $post->likes_count }} Likes</span>
+                        <span class="text-sm text-gray-500">{{ $post->comments_list_count }} Comments</span>
                     </div>
                 </div>
             </div>

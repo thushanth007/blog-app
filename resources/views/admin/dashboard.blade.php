@@ -61,7 +61,11 @@
                                     {{ $post->content }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap" style="border: 1px solid #e2e8f0;">
-                                    <img src="{{ asset('storage/' . $post->image) }}" alt="Post Image" class="w-full rounded-lg" style="width: 100px;">
+                                    @if($post->image)
+                                        <img src="{{ asset('storage/' . $post->image) }}" alt="Post Image" class="w-full rounded-lg" style="width: 100px;">
+                                    @else
+                                        N/A
+                                    @endif
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap" style="border: 1px solid #e2e8f0;">
                                     @if ($post->status === 1)

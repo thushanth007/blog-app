@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('comments', function (Blueprint $table) {
+            
             $table->id();
             $table->unsignedBigInteger('commentable_id');
             $table->string('commentable_type');
@@ -21,7 +22,9 @@ return new class extends Migration
 
             $table->foreign('user_id')->references('id')->on('users')
             ->onDelete('cascade')->onUpdate('cascade');
-            $table->index(['commentable_id', 'commentable_type']);
+        
+            $table->foreign('commentable_id')->references('id')->on('posts')->onDelete('cascade');
+
         });
     }
 
