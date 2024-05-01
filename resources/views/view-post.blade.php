@@ -1,36 +1,11 @@
 <x-app-layout>
-
-    <div class="py-3">
-        <div class="bg-white rounded-lg shadow-md max-w-xl mx-auto my-2">
-            <div class="px-4 py-2 border-t border-gray-200">
-                <a href="{{ url('/posts/add') }}">
-                    <div class="flex items-center space-x-4">
-                        <input name="post" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:border-blue-500" placeholder="What's on your mind?">
-                    </div>
-                </a>
-            </div>
-        </div>
-
-        @if($posts->isEmpty())
-            <div class="py-6">
-                <div class="bg-white rounded-lg shadow-md max-w-xl mx-auto">
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div class="p-6 text-gray-900">
-                            Welcome to the micro social media.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
-
+    <div class="py-2">
         @foreach ($posts as $post)
             <div class="bg-white rounded-lg shadow-md max-w-xl mx-auto my-4">
                 <div class="flex items-center justify-between px-4 py-2 border-b border-gray-200">
                     <div class="flex items-center space-x-2">
                         <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="{{ $post->createdBy->name }}" class="w-8 h-8 rounded-full">
-                        <a href="{{ route('user-post', $post->created_by) }}">
-                            <span class="text-sm font-semibold">{{ $post->createdBy->name }}</span>
-                        </a>
+                        <span class="text-sm font-semibold">{{ $post->createdBy->name }}</span>
                     </div>
 
                     @if (auth()->user()->id != $post->created_by)
@@ -152,17 +127,4 @@
             </div>
         @endforeach
     </div>
-
-    @if ($posts->hasPages())
-        <div class="py-3">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">
-                        {{ $posts->links() }}
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
 </x-app-layout>
-

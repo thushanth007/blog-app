@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/posts/{post}', [PostController::class, 'edit'])->name('posts.edit');
     Route::patch('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
     Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+    Route::get('/post-view/{id}', [UserPostController::class, 'view'])->name('post-view');
 
     // Route for storing a new comment
     Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');

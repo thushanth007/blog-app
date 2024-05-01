@@ -78,11 +78,19 @@
                                     {{ __('Edit') }}
                                 </x-dropdown-link>
 
-                                <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
+                                <form method="post" action="{{ route('posts.destroy', $post->id) }}"  enctype="multipart/form-data">
                                     @csrf
-                                    @method('DELETE')
-                                    <x-dropdown-link :href="route('posts.destroy', $post->id)" class="text-red-500 hover:text-red-700">
-                                        {{ __('Delete') }}
+
+                                    @if(isset($post))
+                                        @method('DELETE')
+                                    @endif
+
+                                    <x-dropdown-link class="text-blue-500 hover:text-blue-700">
+                                        <button>
+                                            <div class="text-blue-500 hover:text-blue-700">
+                                                {{ __('Delete') }}
+                                            </div>
+                                        </button>
                                     </x-dropdown-link>
                                 </form>
                             </x-slot>
@@ -116,7 +124,7 @@
 
                     <div class="flex items-center space-x-4">
                         <span class="text-sm text-gray-500" id="likeCount_{{ $post->id }}" data-post-id="{{ $post->id }}">{{ $post->likes_count }} Likes</span>
-                        <span class="text-sm text-gray-500">{{ $post->comments_list_count }} Comments</span>
+                        <span class="text-sm text-gray-500" id="commentCount_{{ $post->id }}" data-post-id="{{ $post->id }}">{{ $post->comment_list_count }} Comments</span>
                     </div>
                 </div>
 
@@ -136,25 +144,30 @@
 
                 @if($post->comments)
                     @foreach($post->comments as $comment)
-                        <div class="flex items-center justify-between px-4 py-2 border-t border-gray-200">
-                            <div class="flex items-center space-x-2">
-                                <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="{{ $post->createdBy->name }}" class="w-8 h-8 rounded-full">
-                                <a href="{{ route('user-post', $post->created_by) }}">
-                                    <span class="text-sm">{{ $comment->createdBy->name }}</span>
-                                </a>
-                            </div>
-
-                            <div class="flex items-center space-x-4">
-                                <form id="commentDeleteForm" onsubmit="event.preventDefault(); deleteComment({{ $comment->id }})" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" id="postCommentDeleteButton" class="text-sm text-gray-500">Delete</button>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="flex items-center px-12 border-gray-200 pb-2">
-                            <div class="flex items-center space-x-4">
-                                {{ $comment->body }}
+                        <div id="commentsSection_{{ $post->id }}">
+                            <div id="comment_{{ $comment->id }}">
+                                <div  class="flex items-center justify-between px-4 py-2 border-t border-gray-200">
+                                    <div class="flex items-center space-x-2">
+                                        <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="{{ $post->createdBy->name }}" class="w-8 h-8 rounded-full">
+                                        <a href="{{ route('user-post', $comment->user_id) }}">
+                                            <span class="text-sm">{{ $comment->createdBy->name }}</span>
+                                        </a>
+                                    </div>
+                                    @if($comment->user_id == Auth::id())
+                                    <div class="flex items-center space-x-4">
+                                        <form id="commentDeleteForm" onsubmit="event.preventDefault(); deleteComment({{ $comment->id }})" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" id="postCommentDeleteButton" class="text-sm text-gray-500">Delete</button>
+                                        </form>
+                                    </div>
+                                    @endif
+                                </div>
+                                <div class="flex items-center px-12 border-gray-200 pb-2">
+                                    <div class="flex items-center space-x-4">
+                                        {{ $comment->body }}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     @endforeach

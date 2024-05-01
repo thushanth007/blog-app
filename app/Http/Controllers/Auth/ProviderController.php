@@ -24,26 +24,26 @@ class ProviderController extends Controller
 
         try {
             // Retrieve the user information
-            $socialUser = Socialite::driver($provider)->user();
+           $providerUser = Socialite::driver($provider)->user();
         } catch (\Exception $e) {
             return 'Error retrieving user information: ' . $e->getMessage();
         }
 
         // Check if user information is available
-        if (!$socialUser) {
+        if (!$providerUser) {
             return 'Failed to retrieve user information.';
         }
 
         // Determine the value for the 'name' column
-        $name = $socialUser->name ?: $socialUser->nickname;
+        $name =$providerUser->name ?:$providerUser->nickname;
 
         $user = User::updateOrCreate([
-            'provider_id' => $socialUser->id,
+            'provider_id' =>$providerUser->id,
             'provider' => $provider
         ], [
             'name' => $name,
-            'email' => $socialUser->email,
-            'provider_token' => $socialUser->token,
+            'email' =>$providerUser->email,
+            'provider_token' =>$providerUser->token,
         ]);
 
         Auth::login($user);

@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('admin.dashboard') }}">
+                    <a href="{{ route('dashboard') }}">
                         <h1 class="text-xl font-semibold text-black dark:text-white">Micro Social Media</h1>
                     </a>
                 </div>

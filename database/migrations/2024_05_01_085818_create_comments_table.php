@@ -12,19 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('comments', function (Blueprint $table) {
-            
-            $table->id();
-            $table->unsignedBigInteger('commentable_id');
-            $table->string('commentable_type');
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('post_id');
             $table->unsignedBigInteger('user_id');
+            $table->string('commentable_type');
             $table->text('body');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')
+            $table->foreign('post_id')->references('id')->on('posts')  
             ->onDelete('cascade')->onUpdate('cascade');
-        
-            $table->foreign('commentable_id')->references('id')->on('posts')->onDelete('cascade');
-
+            
+            $table->foreign('user_id')->references('id')->on('users')  
+            ->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

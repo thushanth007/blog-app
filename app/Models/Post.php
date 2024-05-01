@@ -5,9 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
 use App\Models\Comment;
-
 
 class Post extends Model
 {
@@ -20,9 +18,9 @@ class Post extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function comments(): MorphMany
+    public function comment(): MorphMany
     {
-        return $this->morphMany(Comment::class, 'commentable');
+        return $this->morphMany(Comment::class, 'post');
     }
 
     public function likes()
@@ -32,7 +30,6 @@ class Post extends Model
 
     public function commentList()
     {
-        return $this->hasMany(Comment::class, 'commentable_id');
+        return $this->hasMany(Comment::class, 'post_id');
     }
-
 }
