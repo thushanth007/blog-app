@@ -123,40 +123,74 @@
                     </form>
                 </div>
 
-                @if ($post->comments)
-                    @foreach ($post->comments as $comment)
-                        <div id="commentsSection_{{ $post->id }}">
-                            <div id="comment_{{ $comment->id }}">
-                                <div class="flex items-center justify-between px-4 py-2 border-t border-gray-200">
-                                    <div class="flex items-center space-x-2">
-                                        <img src="https://randomuser.me/api/portraits/men/1.jpg"
-                                            alt="{{ $post->createdBy->name }}" class="w-8 h-8 rounded-full">
-                                        <a href="{{ route('user-post', $comment->user_id) }}">
-                                            <span class="text-sm">{{ $comment->createdBy->name }}</span>
-                                        </a>
-                                    </div>
-                                    @if ($comment->user_id == Auth::id())
-                                        <div class="flex items-center space-x-4">
-                                            <form id="commentDeleteForm"
-                                                onsubmit="event.preventDefault(); deleteComment({{ $comment->id }})"
-                                                method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" id="postCommentDeleteButton"
-                                                    class="text-sm text-gray-500">Delete</button>
-                                            </form>
-                                        </div>
-                                    @endif
+                @if ($post->comments->count() > 3)
+                @foreach ($post->comments->take(3) as $comment)
+                    <div id="commentsSection_{{ $post->id }}">
+                        <div id="comment_{{ $comment->id }}">
+                            <div class="flex items-center justify-between px-4 py-2 border-t border-gray-200">
+                                <div class="flex items-center space-x-2">
+                                    <img src="https://randomuser.me/api/portraits/men/1.jpg"
+                                        alt="{{ $post->createdBy->name }}" class="w-8 h-8 rounded-full">
+                                    <a href="{{ route('user-post', $comment->user_id) }}">
+                                        <span class="text-sm">{{ $comment->createdBy->name }}</span>
+                                    </a>
                                 </div>
-                                <div class="flex items-center px-12 border-gray-200 pb-2">
+                                @if ($comment->user_id == Auth::id())
                                     <div class="flex items-center space-x-4">
-                                        {{ $comment->body }}
+                                        <form id="commentDeleteForm"
+                                            onsubmit="event.preventDefault(); deleteComment({{ $comment->id }})"
+                                            method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" id="postCommentDeleteButton"
+                                                class="text-sm text-gray-500">Delete</button>
+                                        </form>
                                     </div>
+                                @endif
+                            </div>
+                            <div class="flex items-center px-12 border-gray-200 pb-2">
+                                <div class="flex items-center space-x-4">
+                                    {{ $comment->body }}
                                 </div>
                             </div>
                         </div>
-                    @endforeach
-                @endif
+                    </div>
+                @endforeach
+                <a href="{{ route('post-view', $post->id) }}" class="text-blue-500">View all comments</a>
+            @else
+                @foreach ($post->comments as $comment)
+                    <div id="commentsSection_{{ $post->id }}">
+                        <div id="comment_{{ $comment->id }}">
+                            <div class="flex items-center justify-between px-4 py-2 border-t border-gray-200">
+                                <div class="flex items-center space-x-2">
+                                    <img src="https://randomuser.me/api/portraits/men/1.jpg"
+                                        alt="{{ $post->createdBy->name }}" class="w-8 h-8 rounded-full">
+                                    <a href="{{ route('user-post', $comment->user_id) }}">
+                                        <span class="text-sm">{{ $comment->createdBy->name }}</span>
+                                    </a>
+                                </div>
+                                @if ($comment->user_id == Auth::id())
+                                    <div class="flex items-center space-x-4">
+                                        <form id="commentDeleteForm"
+                                            onsubmit="event.preventDefault(); deleteComment({{ $comment->id }})"
+                                            method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" id="postCommentDeleteButton"
+                                                class="text-sm text-gray-500">Delete</button>
+                                        </form>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="flex items-center px-12 border-gray-200 pb-2">
+                                <div class="flex items-center space-x-4">
+                                    {{ $comment->body }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            @endif
             </div>
         @endforeach
     </div>
