@@ -36,13 +36,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
     Route::get('/post-view/{id}', [UserPostController::class, 'view'])->name('post-view');
 
-    // Route for storing a new comment
+    // Comment
     Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
-
-    // Route for deleting a comment
     Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
-    // Route for like
+    // like
     Route::post('/like/{id}', [LikeController::class, 'store'])->name('like.store');
 
 });
@@ -55,6 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/admin-post/{post}', [AdminPostController::class, 'destroy'])->name('admin.post-destroy');
 });
 
+// API Google and Github
 Route::get('/auth/{provider}/redirect', [ProviderController::class, 'redirect']);
 Route::get('/auth/{provider}/callback', [ProviderController::class, 'callback']);
 

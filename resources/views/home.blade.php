@@ -1,7 +1,7 @@
 @extends('layouts.custom')
 
 @section('content')
-    @if(count($errors) > 0)
+    @if (count($errors) > 0)
         <div class="py-3">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -16,7 +16,7 @@
         </div>
     @endif
 
-    @if($posts->isEmpty())
+    @if ($posts->isEmpty())
         <div class="py-3">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -33,7 +33,8 @@
             <div class="bg-white rounded-lg shadow-md max-w-xl mx-auto my-4">
                 <div class="flex items-center justify-between px-4 py-2 border-b border-gray-200">
                     <div class="flex items-center space-x-2">
-                        <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="{{ $post->createdBy->name }}" class="w-8 h-8 rounded-full">
+                        <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="{{ $post->createdBy->name }}"
+                            class="w-8 h-8 rounded-full">
                         <a href="{{ url('/login') }}">
                             <span class="text-sm font-semibold">{{ $post->createdBy->name }}</span>
                         </a>
@@ -54,7 +55,8 @@
                 <div class="flex items-center justify-between px-4 py-2 border-t border-gray-200">
                     <div class="flex items-center space-x-4">
                         <button class="flex items-center space-x-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20"
+                                fill="currentColor">
                             </svg>
                             <a href="{{ url('/login') }}"><span class="text-sm text-gray-500">Like</span></a>
                         </button>

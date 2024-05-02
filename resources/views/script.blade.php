@@ -1,5 +1,4 @@
 <script>
-
     function submitComment(postId, commentableType) {
 
         var commentValue = document.getElementById('commentField_' + postId).value;
@@ -24,11 +23,12 @@
                     '<div class="flex items-center space-x-2">' +
                     '<img src="https://randomuser.me/api/portraits/men/1.jpg" class="w-8 h-8 rounded-full">' +
                     '<a href="/user-post/' + postComment.user_id + '">' +
-                    '<span class="text-sm">' + postComment.user_name  + '</span>' +
+                    '<span class="text-sm">' + postComment.user_name + '</span>' +
                     '</a>' +
                     '</div>' +
                     '<div class="flex items-center space-x-4">' +
-                    '<form id="commentDeleteForm" onsubmit="event.preventDefault(); deleteComment(' + postComment.id + ')" method="POST">' +
+                    '<form id="commentDeleteForm" onsubmit="event.preventDefault(); deleteComment(' +
+                    postComment.id + ')" method="POST">' +
                     '@csrf' +
                     '@method('DELETE')' +
                     '<button type="submit" id="postCommentDeleteButton" class="text-sm text-gray-500">Delete</button>' +
@@ -112,6 +112,4 @@
             commentCountElement.innerText = commentCount + ' Comments';
         }
     }
-
 </script>
-

@@ -44,7 +44,7 @@ class NewCommentNotification extends Notification
                     ->subject('New Comment on Your Post')
                     ->line($this->commenterName . ' commented on your post: ' . $this->postTitle)
                     ->action('View Post', url('/post-view/' . $this->postId))
-                    ->line('Thank you for using our application!');
+                    ->line('Thank you for using our Website!');
     }
 
     /**
